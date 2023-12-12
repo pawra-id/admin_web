@@ -1,3 +1,12 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-    console.log("Global middleware");
+    const userData = localStorage.getItem('userData');
+    const isLoggedIn = userData !== null;
+    console.log('isLoggedIn', isLoggedIn);
+
+    if (to.path !== '/login' && !isLoggedIn) {
+        return navigateTo('/login');
+    }
+    else if (to.path === '/login' && isLoggedIn) {
+        return navigateTo('/');
+    }
 });

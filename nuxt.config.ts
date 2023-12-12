@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import {resolve} from "path"
 
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
   alias: {
@@ -19,7 +20,11 @@ export default defineNuxtConfig({
     },
   },
   ssr: false,
-
+  runtimeConfig: {
+    public: {
+      pawraPath: process.env.PAWRA_BASE_URL,
+    }
+  }
   //compiler options
   
 })
