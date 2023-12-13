@@ -67,7 +67,7 @@ const routeName = computed(() => {
                         <!-- Sidebar component, swap this element with another sidebar if you like -->
                         <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-800 px-6 pb-2 ring-1 ring-white/10">
                             <div class="flex h-16 shrink-0 items-center">
-                                <img class="h-12 w-auto" src="/assets/images/pawra1x1.png" alt="Your Company" />
+                                <img class="h-12 w-auto" src="/images/Pawra1x1.png" alt="Your Company" />
                             </div>
                             <nav class="flex flex-1 flex-col">
                                 <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -97,7 +97,7 @@ const routeName = computed(() => {
         <!-- Sidebar component, swap this element with another sidebar if you like -->
         <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-800 px-6">
             <div class="flex h-16 shrink-0 items-center">
-                <img class="h-12 w-auto" src="/assets/images/pawra1x1.png" alt="Your Company" />
+                <img class="h-12 w-auto" src="/images/Pawra1x1.png" alt="Your Company" />
             </div>
             <nav class="flex flex-1 flex-col">
                 <ul role="list" class="flex flex-1 flex-col gap-y-7">
