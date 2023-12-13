@@ -65,9 +65,9 @@ const routeName = computed(() => {
                             </div>
                         </TransitionChild>
                         <!-- Sidebar component, swap this element with another sidebar if you like -->
-                        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-2 ring-1 ring-white/10">
+                        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-800 px-6 pb-2 ring-1 ring-white/10">
                             <div class="flex h-16 shrink-0 items-center">
-                                <img class="h-12 w-auto" src="@/assets/images/pawra1x1.png" alt="Your Company" />
+                                <img class="h-12 w-auto" src="/assets/images/pawra1x1.png" alt="Your Company" />
                             </div>
                             <nav class="flex flex-1 flex-col">
                                 <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -75,7 +75,7 @@ const routeName = computed(() => {
                                         <ul role="list" class="-mx-2 space-y-1">
                                             <li v-for="item in navigations" :key="item.name">
                                                 <NuxtLink :to="item.href"
-                                                    :class="[isRouteActive(item.href) ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                                                    :class="[isRouteActive(item.href) ? 'bg-gray-900 text-emerald-500' : 'text-gray-400 hover:text-white hover:bg-gray-800', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
                                                     <component :is="item.icon" class="h-6 w-6 shrink-0"
                                                         aria-hidden="true" />
                                                     {{ item.name }}
@@ -97,7 +97,7 @@ const routeName = computed(() => {
         <!-- Sidebar component, swap this element with another sidebar if you like -->
         <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-800 px-6">
             <div class="flex h-16 shrink-0 items-center">
-                <img class="h-12 w-auto" src="@/assets/images/pawra1x1.png" alt="Your Company" />
+                <img class="h-12 w-auto" src="/assets/images/pawra1x1.png" alt="Your Company" />
             </div>
             <nav class="flex flex-1 flex-col">
                 <ul role="list" class="flex flex-1 flex-col gap-y-7">
