@@ -6,7 +6,7 @@ export const usePath = () => useState<string>('pawraPath', () => {
 
 
 type UserData = {
-    token: string,
+    access_token: string,
     token_type: string,
     user: {
         id: number,
@@ -42,3 +42,16 @@ export const useLogout = () => {
     useRemoveUserData()
     navigateTo('/login')
 }
+
+
+//////////////////////////////Alert state
+//simple state variable
+export const useShowAlert = () => useState<boolean>('showAlert', () => false)
+
+//state function that catch the alert details
+export const useAlertMessage = () => useState<string>('alertMessage', () => '')
+export const useAlertType = () => useState<string>('alertType', () => 'success')
+
+
+
+

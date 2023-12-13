@@ -8,4 +8,14 @@ export default defineNuxtRouteMiddleware((to, from) => {
     else if (to.path === '/login' && isLoggedIn) {
         return navigateTo('/');
     }
+
+    //if current time is past token expiration time, logout
+    if (isLoggedIn) {
+        const tokenExpiration = JSON.parse(userData).expires_in;
+        const currentTime = new Date().getTime();
+        if (currentTime > tokenExpiration) {
+            localStorage.removeItem('userData');
+            return navigateTo('/login');
+        }
+    }
 });

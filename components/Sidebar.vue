@@ -28,7 +28,10 @@ const navigations = [
 const route = useRoute()
 const sidebarOpen = ref(false)
 const toggle = () => sidebarOpen.value = !sidebarOpen.value
-const isRouteActive = (href) => route.path === href
+const isRouteActive = (href) => {
+    if (href === '/') return route.path === href
+    return route.path.startsWith(href)
+}
 
 const routeName = computed(() => {
     if (route.name === 'index') return 'Dashboard'
