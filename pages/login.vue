@@ -43,7 +43,7 @@ const login = async () => {
 <template>
   <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <img class="mx-auto h-16 w-auto" src="@/assets/images/pawra1x1.png" alt="Your Company" />
+      <img class="mx-auto h-16 w-auto" src="/images/Pawra1x1.png" alt="Your Company" />
       <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">Sign in to your account</h2>
     </div>
 
