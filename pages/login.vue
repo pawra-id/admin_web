@@ -2,11 +2,12 @@
 import { ref } from 'vue'
 
 definePageMeta({
-  layout: ''
+  layout: '',
 })
 
 const pawraPath = usePath()
 const loading = ref(false)
+const error = ref('')
 
 const formData = ref({
   username: '',
@@ -21,7 +22,10 @@ const login = async () => {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Accept': 'application/json'
     },
-    body: new URLSearchParams(formData.value)
+    body: new URLSearchParams(formData.value),
+    onResponseError: (res) => {
+      error.value = res.response._data.detail
+    }
   })
     .then(res => {
       useSetUserData(res.data.value)
@@ -32,9 +36,8 @@ const login = async () => {
       formData.value.username = ''
       formData.value.password = ''
     })
-    .catch(err => console.log(err))
+    
 }
-
 
 </script>
 <template>
@@ -45,6 +48,9 @@ const login = async () => {
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div v-if="error !== ''" class="bg-red-500 text-white px-4 py-2 rounded-lg mb-3">
+        {{ error }}
+      </div>
       <form class="space-y-6" method="POST" @submit.prevent="login">
         <div>
           <label for="username" class="block text-sm font-medium leading-6 text-white">Username</label>

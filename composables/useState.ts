@@ -34,11 +34,11 @@ export const useSetUserData = (userData: UserData) => {
     localStorage.setItem('userData', JSON.stringify(userData))
 }
 
-//state isLoggedIn
-export const useIsLoggedIn = () => useState<boolean>('isLoggedIn', () => {
-    const userData = useGetUserData()
-    if (userData.value !== null) {
-        return true
-    }
-    return false
-})
+export const useRemoveUserData = () => {
+    localStorage.removeItem('userData')
+}
+
+export const useLogout = () => {
+    useRemoveUserData()
+    navigateTo('/login')
+}
