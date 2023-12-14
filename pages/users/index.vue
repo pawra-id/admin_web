@@ -8,6 +8,7 @@ const token = useGetUserData().value.access_token;
 const page = ref(1);
 const size = ref(20);
 const users = ref();
+const search = ref('');
 
 await useFetch(`${pawraPath.value}/users/`, {
   method: 'GET',
@@ -17,6 +18,7 @@ await useFetch(`${pawraPath.value}/users/`, {
     'Authorization': 'Bearer ' + token
   },
   query: {
+    search: search.value,
     size: size.value,
     page: page.value
   },
@@ -28,8 +30,7 @@ await useFetch(`${pawraPath.value}/users/`, {
   users.value = res.data.value
 })
 
-const nextPage = async () => {
-  page.value++;
+const getUsers = async () => {
   await useFetch(`${pawraPath.value}/users/`, {
     method: 'GET',
     headers: {
@@ -38,6 +39,7 @@ const nextPage = async () => {
       'Authorization': 'Bearer ' + token
     },
     query: {
+      search: search.value,
       size: size.value,
       page: page.value
     },
@@ -48,52 +50,22 @@ const nextPage = async () => {
   }).then(res => {
     users.value = res.data.value
   })
+}
+
+const nextPage = async () => {
+  page.value++;
+  getUsers();
 }
 
 const previousPage = async () => {
   page.value--;
-  await useFetch(`${pawraPath.value}/users/`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + token
-    },
-    query: {
-      size: size.value,
-      page: page.value
-    },
-    //params
-    onResponseError: (res) => {
-      console.log(res.response._data)
-    }
-  }).then(res => {
-    users.value = res.data.value
-  })
+  getUsers();
 }
 
 const goTo = async (to: number) => {
   page.value = to;
-  await useFetch(`${pawraPath.value}/users/`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + token
-    },
-    query: {
-      size: size.value,
-      page: page.value
-    },
-    //params
-    onResponseError: (res) => {
-      console.log(res.response._data)
-    }
-  }).then(res => {
-    users.value = res.data.value
-  })
+  getUsers();
 }
-
 </script>
 
 <template>
@@ -105,11 +77,23 @@ const goTo = async (to: number) => {
           and role.</p>
       </div>
       <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-        <button type="button"
+        <NuxtLink to="/users/create"
           class="block rounded-md bg-emerald-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Add
-          user</button>
+          user</NuxtLink>
       </div>
     </div>
+    <form @submit.prevent="getUsers" class="sm:w-[50%] flex mt-4 gap-x-3">
+      <div
+        class="flex flex-1 rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-emerald-500">
+
+        <input v-model="search" type="text" name="search" id="search" autocomplete="off"
+          class="flex-1 border-0 bg-transparent py-1.5 pl-3 text-white focus:ring-0 sm:text-sm sm:leading-6"
+          placeholder="janesmith" />
+      </div>
+      <button type="submit"
+        class="block rounded-md bg-emerald-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Search</button>
+
+    </form>
     <table class="mt-6 w-full whitespace-nowrap text-left">
       <colgroup>
         <col class="w-full sm:w-3/12" />
@@ -133,8 +117,9 @@ const goTo = async (to: number) => {
         <tr v-for="user in users.items" :key="user.id">
           <td class="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
             <div class="flex items-center gap-x-4">
-              <img :src="user.image === '' ? 'https://ui-avatars.com/api/?background=10b981&color=000&name=' + user.username : user.image"
-                alt="" class="h-8 w-8 rounded-full bg-gray-800" />
+              <img
+                :src="user.image === '' ? 'https://ui-avatars.com/api/?background=10b981&color=000&name=' + user.username : user.image"
+                alt="" class="h-8 w-8 rounded-full bg-gray-800 object-cover" />
               <div class="truncate text-sm font-medium leading-6 text-white">{{ user.username }}</div>
             </div>
           </td>
@@ -188,12 +173,6 @@ const goTo = async (to: number) => {
                           Edit
                         </NuxtLink>
                         </MenuItem>
-                        <MenuItem v-slot="{ active }">
-                        <button @click.prevent="useLogout()"
-                          :class="[active ? 'bg-emerald-700 text-gray-900' : 'text-black', 'group flex items-center w-full px-4 py-2 text-sm']">
-                          Delete
-                        </button>
-                        </MenuItem>
                       </div>
                     </MenuItems>
                   </transition>
@@ -206,14 +185,8 @@ const goTo = async (to: number) => {
       </tbody>
     </table>
     <div class="mt-6">
-      <pagination 
-        @next="nextPage()"
-        @previous="previousPage()"      
-        @to="goTo"  
-        :page="users.page" 
-        :size="users.size" 
-        :total="users.total" 
-        :pages="users.pages"/>
+      <pagination @next="nextPage()" @previous="previousPage()" @to="goTo" :page="users.page" :size="users.size"
+        :total="users.total" :pages="users.pages" />
     </div>
   </div>
 </template>

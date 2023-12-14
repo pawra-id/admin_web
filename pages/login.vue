@@ -33,8 +33,6 @@ const login = async () => {
     })
     .finally(() => {
       loading.value = false
-      formData.value.username = ''
-      formData.value.password = ''
     })
     
 }

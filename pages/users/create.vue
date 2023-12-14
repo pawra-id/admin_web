@@ -1,35 +1,27 @@
 <script setup>
-import { ref, onMounted } from 'vue'
 
-const route = useRoute();
+import { ref } from 'vue'
+
 const pawraPath = usePath();
 const token = useGetUserData().value.access_token;
 const loading = ref(false);
-const loadImage = ref(false);
-const user = ref();
+const user = ref({
+    username: '',
+    password: '',
+    email: '',
+    role: '',
+    summary: '',
+    address: '',
+    latitude: '',
+    longitude: '',
+    image: ''
+});
 
-//get id from params
-const id = route.params.id
-
-//request user data from api with id
-await useFetch(`${pawraPath.value}/users/${id}`, {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ' + token
-    },
-    onResponseError: (res) => {
-        console.log(res.response._data)
-    }
-}).then(res => {
-    user.value = res.data.value
-})
 
 const updateUser = async () => {
     loading.value = true;
-    await useFetch(`${pawraPath.value}/users/${id}`, {
-        method: 'PUT',
+    await useFetch(`${pawraPath.value}/users/`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -37,18 +29,32 @@ const updateUser = async () => {
         },
         body: JSON.stringify(user.value),
         onResponseError: (res) => {
-            useAlertMessage().value = 'failed to update user';
+            useAlertMessage().value = 'failed to create user';
             useAlertType().value = 'error';
             useShowAlert().value = true;
             console.log(res.response._data)
+            loading.value = false;
         }
     }).then(res => {
         user.value = res.data.value
-        useAlertMessage().value = 'User updated successfully';
+        useAlertMessage().value = 'User created successfully';
         useAlertType().value = 'success';
         useShowAlert().value = true;
+        loading.value = false;
     }).finally(() => {
         loading.value = false;
+        //empty form
+        user.value = {
+            username: '',
+            password: '',
+            email: '',
+            role: '',
+            summary: '',
+            address: '',
+            latitude: '',
+            longitude: '',
+            image: ''
+        }
     })
 }
 
@@ -60,7 +66,6 @@ const uploadFile = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append('file', file);
-    loadImage.value = true;
 
     await useFetch(`${pawraPath.value}/users/image`, {
         method: 'POST',
@@ -73,13 +78,10 @@ const uploadFile = async (e) => {
             useAlertType().value = 'error';
             useShowAlert().value = true;
             console.log(res.response._data)
-            loadImage.value = true;
         }
     }).then(res => {
         user.value.image = res.data.value
         updateUser();
-    }).finally(() => {
-        loadImage.value = false;
     })
 }
 </script>
@@ -90,7 +92,7 @@ const uploadFile = async (e) => {
             <div class="pb-12">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-base font-semibold leading-7 text-white">Edit User</h2>
+                        <h2 class="text-base font-semibold leading-7 text-white">Create User</h2>
                         <p class="mt-1 text-sm leading-6 text-gray-400">This information will be displayed publicly so be
                             careful
                             what you share.</p>
@@ -114,6 +116,18 @@ const uploadFile = async (e) => {
                                 <input v-model="user.username" type="text" name="username" id="username"
                                     class="flex-1 border-0 bg-transparent py-1.5 pl-3 text-white focus:ring-0 sm:text-sm sm:leading-6"
                                     placeholder="janesmith" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-4">
+                        <label for="username" class="block text-sm font-medium leading-6 text-white">Password</label>
+                        <div class="mt-2">
+                            <div
+                                class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-emerald-500">
+
+                                <input v-model="user.password" type="password" name="password" id="password"
+                                    class="flex-1 border-0 bg-transparent py-1.5 pl-3 text-white focus:ring-0 sm:text-sm sm:leading-6"
+                                    placeholder="*****" />
                             </div>
                         </div>
                     </div>
@@ -163,13 +177,10 @@ const uploadFile = async (e) => {
                     </div>
 
                     <div class="col-span-full">
-                        <label for="photo" class="block text-sm font-medium leading-6 text-white">
-                            Image Profile
-                            <span v-if="loadImage" class="text-emerald-500">Loading..</span>
-                        </label>
+                        <label for="photo" class="block text-sm font-medium leading-6 text-white">Image Profile</label>
                         <div class="mt-2 flex items-center gap-x-3">
                             <img :src="user.image === '' ? 'https://ui-avatars.com/api/?background=10b981&color=000&name=' + user.username : user.image"
-                                alt="" class="h-12 w-12 rounded-full bg-gray-800 object-cover" />
+                                alt="" class="h-12 w-12 rounded-full bg-gray-800" />
                             <input type="file" name="photo" id="file" class="hidden" @change="uploadFile" />
                             <button type="button" @click.prevent="getFile"
                                 class="rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20">Change</button>

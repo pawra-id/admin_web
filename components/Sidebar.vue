@@ -39,6 +39,9 @@ const routeName = computed(() => {
     const name = route.name.charAt(0).toUpperCase() + route.name.slice(1)
     return name
 })
+
+const user = useGetUserData().value.user
+
 </script>
 
 <template>
@@ -123,7 +126,7 @@ const routeName = computed(() => {
                                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                                     alt="" />
                                 <span class="sr-only">Your profile</span>
-                                <span aria-hidden="true">Tom Cook</span>
+                                <span aria-hidden="true">{{ user.username }}</span>
                             </div>
                             <button @click.prevent="useLogout()" class="bg-red-700 h-full px-4 hover:bg-red-900 rounded-md">
                                 <ArrowRightCircleIcon class="h-7 w-7 text-white font-bold" aria-hidden="true" />
