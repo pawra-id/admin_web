@@ -30,6 +30,9 @@ const getUsers = async () => {
     //params
     onResponseError: (res) => {
       console.log(res.response._data);
+      if (res.response.status === 401) {
+        useLogout();
+      }
     },
   }).then((res) => {
     blogs.value = res.data.value;
@@ -103,7 +106,7 @@ const deleteBlog = async (id: number) => {
     <table class="mt-6 w-full whitespace-nowrap text-left" v-if="blogs">
       <colgroup>
         <col class="w-full sm:w-2/12" />
-        <col class="lg:w-3/12" />
+        <col class="lg:w-2/12" />
         <col class="lg:w-5/12" />
         <col class="lg:w-2/12" />
       </colgroup>
@@ -124,13 +127,13 @@ const deleteBlog = async (id: number) => {
       <tbody class="divide-y divide-white/5">
         <tr v-for="blog in blogs.items" :key="blog.id">
           <td class="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8 flex items-center">
-            
-              <img :src="blog.image === ''
-                  ? 'https://ui-avatars.com/api/?background=10b981&color=000&name=' +
-                  blog.title
-                  : blog.image
-                " alt="" class="h-8 w-8 rounded-full bg-gray-800 object-cover" />
-            
+
+            <img :src="blog.image === ''
+              ? 'https://ui-avatars.com/api/?background=10b981&color=000&name=' +
+              blog.title
+              : blog.image
+              " alt="" class="h-8 w-8 rounded-full bg-gray-800 object-cover" />
+
           </td>
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
             <div class="flex gap-x-3">
@@ -141,8 +144,8 @@ const deleteBlog = async (id: number) => {
           </td>
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
             <div class="flex gap-x-3">
-              <div class="font-mono text-sm leading-6 text-gray-400">
-                {{ blog.content?.substring(0, 20) }}...
+              <div class="font-mono truncate text-sm leading-6 text-gray-400">
+                {{ blog.content }}
               </div>
             </div>
           </td>
