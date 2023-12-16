@@ -8,8 +8,10 @@ import {
     ChartPieIcon,
     HeartIcon,
     HomeIcon,
+    LightBulbIcon,
     NewspaperIcon,
     Square3Stack3DIcon,
+    TicketIcon,
     UsersIcon,
     XMarkIcon,
 
@@ -24,6 +26,8 @@ const navigations = [
     { name: 'Blogs', href: '/blogs', icon: NewspaperIcon, current: false },
     { name: 'Activity', href: '/activities', icon: Square3Stack3DIcon, current: false },
     { name: 'Analysis', href: '/analysis', icon: ChartPieIcon, current: false },
+    { name: 'Actions', href: '/actions', icon: LightBulbIcon, current: false },
+    { name: 'Tags', href: '/tags', icon: TicketIcon, current: false },
 ]
 const route = useRoute()
 const sidebarOpen = ref(false)

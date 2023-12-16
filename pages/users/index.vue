@@ -143,12 +143,12 @@ const goTo = async (to: number) => {
           </td>
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
             <div class="flex gap-x-3">
-              <div class="font-mono truncate text-sm leading-6 text-gray-400">{{ user.summary }}</div>
+              <div class="font-mono truncate text-sm leading-6 text-gray-400 w-64">{{ user.summary }}</div>
             </div>
           </td>
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
             <div class="flex gap-x-3">
-              <div class="font-mono truncate text-sm leading-6 text-gray-400">{{ user.address }}</div>
+              <div class="font-mono truncate text-sm leading-6 text-gray-400 w-64">{{ user.address }}</div>
             </div>
           </td>
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
