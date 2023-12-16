@@ -40,6 +40,8 @@ export const useRemoveUserData = () => {
 
 export const useLogout = () => {
     useRemoveUserData()
+    //refresh the page
+    window.location.reload()
     navigateTo('/login')
 }
 

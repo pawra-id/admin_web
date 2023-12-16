@@ -6,6 +6,10 @@ const pawraPath = usePath();
 const token = useGetUserData().value.access_token;
 const loading = ref(false);
 const loadImage = ref(false);
+const listRoles = [
+    { id: 1, name: 'User', value: 'user' },
+    { id: 2, name: 'Admin', value: 'admin'},
+]
 const user = ref({
     username: '',
     password: '',
@@ -88,10 +92,11 @@ const uploadFile = async (e) => {
         useAlertMessage().value = 'Image uploaded successfully';
         useAlertType().value = 'success';
         useShowAlert().value = true;
-        
+
         loadImage.value = false;
     })
 }
+
 </script>
 
 <template>
@@ -116,51 +121,55 @@ const uploadFile = async (e) => {
 
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div class="sm:col-span-4">
-                        <label for="username" class="block text-sm font-medium leading-6 text-white">Username</label>
+                        <label for="username" class="block text-sm font-medium leading-6 text-white">
+                            Username <span class="text-red-500">*</span>
+                        </label>
                         <div class="mt-2">
                             <div
                                 class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-emerald-500">
 
                                 <input v-model="user.username" type="text" name="username" id="username"
                                     class="flex-1 border-0 bg-transparent py-1.5 pl-3 text-white focus:ring-0 sm:text-sm sm:leading-6"
-                                    placeholder="janesmith" />
+                                    placeholder="janesmith" required />
                             </div>
                         </div>
                     </div>
                     <div class="sm:col-span-4">
-                        <label for="username" class="block text-sm font-medium leading-6 text-white">Password</label>
+                        <label for="username" class="block text-sm font-medium leading-6 text-white">
+                            Password <span class="text-red-500">*</span>
+                        </label>
                         <div class="mt-2">
                             <div
                                 class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-emerald-500">
 
                                 <input v-model="user.password" type="password" name="password" id="password"
                                     class="flex-1 border-0 bg-transparent py-1.5 pl-3 text-white focus:ring-0 sm:text-sm sm:leading-6"
-                                    placeholder="*****" />
+                                    placeholder="*****" required />
                             </div>
                         </div>
                     </div>
                     <div class="sm:col-span-4">
-                        <label for="email" class="block text-sm font-medium leading-6 text-white">Email</label>
+                        <label for="email" class="block text-sm font-medium leading-6 text-white">
+                            Email <span class="text-red-500">*</span>
+                        </label>
                         <div class="mt-2">
                             <div
                                 class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-emerald-500">
 
                                 <input v-model="user.email" type="email" name="email" id="email"
                                     class="flex-1 border-0 bg-transparent py-1.5 pl-3 text-white focus:ring-0 sm:text-sm sm:leading-6"
-                                    placeholder="john@gmail.com" />
+                                    placeholder="john@gmail.com" required />
                             </div>
                         </div>
                     </div>
                     <div class="sm:col-span-4">
-                        <label for="role" class="block text-sm font-medium leading-6 text-white">Role</label>
-                        <div class="mt-2">
-                            <div
-                                class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-emerald-500">
-
-                                <input v-model="user.role" type="text" name="role" id="role"
-                                    class="flex-1 border-0 bg-transparent py-1.5 pl-3 text-white focus:ring-0 sm:text-sm sm:leading-6" />
+                        <label for="role" class="block text-sm font-medium leading-6 text-white">
+                            Role <span class="text-red-500">*</span>
+                            <div class="mt-2">
+                                <Select :data="listRoles" v-model="user.role"/>
                             </div>
-                        </div>
+                        </label>
+                        
                     </div>
 
                     <div class="col-span-full">
@@ -235,11 +244,10 @@ const uploadFile = async (e) => {
                             <animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate"
                                 values="0 12 12;360 12 12"></animateTransform>
                         </path>
-                    </svg>
-                </div>
-                <span v-else>Save</span>
-            </button>
-        </div>
-    </form>
-</template>
+                </svg>
+            </div>
+            <span v-else>Save</span>
+        </button>
+    </div>
+</form></template>
   
