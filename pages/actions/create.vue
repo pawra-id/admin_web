@@ -68,12 +68,14 @@ const createAction = async () => {
 
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div class="sm:col-span-4">
-                        <label for="action" class="block text-sm font-medium leading-6 text-white">Action</label>
+                        <label for="action" class="block text-sm font-medium leading-6 text-white">
+                            Action <span class="text-red-500">*</span>
+                        </label>
                         <div class="mt-2">
                             <div
                                 class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-emerald-500">
 
-                                <input v-model="action.action" type="text" name="action" id="action"
+                                <input v-model="action.action" type="text" name="action" id="action" required
                                     class="flex-1 border-0 bg-transparent py-1.5 pl-3 text-white focus:ring-0 sm:text-sm sm:leading-6"
                                     placeholder="janesmith" />
                             </div>

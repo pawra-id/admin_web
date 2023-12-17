@@ -106,12 +106,14 @@ const uploadFile = async (e) => {
 
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div class="sm:col-span-4">
-                        <label for="username" class="block text-sm font-medium leading-6 text-white">Title</label>
+                        <label for="username" class="block text-sm font-medium leading-6 text-white">
+                            Title <span class="text-red-500">*</span>
+                        </label>
                         <div class="mt-2">
                             <div
                                 class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-emerald-500">
 
-                                <input v-model="blog.title" type="text" name="title" id="title"
+                                <input v-model="blog.title" type="text" name="title" id="title" required
                                     class="flex-1 border-0 bg-transparent py-1.5 pl-3 text-white focus:ring-0 sm:text-sm sm:leading-6"
                                     placeholder="janesmith" />
                             </div>
@@ -119,9 +121,11 @@ const uploadFile = async (e) => {
                     </div>
 
                     <div class="col-span-full">
-                        <label for="summary" class="block text-sm font-medium leading-6 text-white">Content</label>
+                        <label for="summary" class="block text-sm font-medium leading-6 text-white">
+                            Content <span class="text-red-500">*</span>
+                        </label>
                         <div class="mt-2">
-                            <textarea id="content" name="content" rows="3" v-model="blog.content"
+                            <textarea id="content" name="content" rows="3" v-model="blog.content" required
                                 class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-emerald-500 sm:text-sm sm:leading-6">
                                 {{ blog.content }}
                             </textarea>

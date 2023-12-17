@@ -35,7 +35,7 @@ const getActions = async () => {
       }
     },
   }).then((res) => {
-    tags.value = res.data.value.items;
+    tags.value = res.data.value;
   });
 };
 
@@ -54,7 +54,7 @@ const goTo = async (to: number) => {
   getActions();
 };
 
-const deleteAction = async (id: number) => {
+const deleteTag = async (id: number) => {
   await useFetch(`${pawraPath.value}/admin/tags/${id}`, {
     method: "DELETE",
     headers: {
@@ -67,7 +67,7 @@ const deleteAction = async (id: number) => {
     },
   }).then((res) => {
     //remove tag with id == id from tags
-    tags.value.items = tags.value.filter((tag: any) => tag.id !== id);
+    tags.value.items = tags.value.items.filter((tag: any) => tag.id !== id);
     useAlertMessage().value = "Blog deleted successfully";
     useAlertType().value = "success";
     useShowAlert().value = true;
@@ -118,7 +118,7 @@ const deleteAction = async (id: number) => {
         </tr>
       </thead>
       <tbody class="divide-y divide-white/5">
-        <tr v-for="tag in tags" :key="tag.id">
+        <tr v-for="tag in tags.items" :key="tag.id">
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
             <div class="flex gap-x-3">
               <div class="truncate font-mono text-sm leading-6 text-gray-400 w-64">
@@ -147,19 +147,7 @@ const deleteAction = async (id: number) => {
                       class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-emerald-500 rounded-md bg-emerald-500 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div class="py-1">
                         <MenuItem v-slot="{ active }">
-                        <NuxtLink :to="`/tags/${tag.id}`" :class="[
-                          active
-                            ? 'bg-emerald-700 text-gray-900'
-                            : 'text-black',
-                          'group flex items-center w-full px-4 py-2 text-sm',
-                        ]">
-                          Edit
-                        </NuxtLink>
-                        </MenuItem>
-                      </div>
-                      <div class="py-1">
-                        <MenuItem v-slot="{ active }">
-                        <button @click.prevent="deleteAction(tag.id)" :class="[
+                        <button @click.prevent="deleteTag(tag.id)" :class="[
                           active
                             ? 'bg-red-700 text-white'
                             : 'text-black',

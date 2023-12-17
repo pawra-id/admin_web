@@ -57,7 +57,7 @@ const getTags = async () => {
     }
   }).then(res => {
     //map the data
-    listTags.value = res.data.value.map((item) => {
+    listTags.value = res.data.value.items.map((item) => {
       return {
         id: item.id,
         name: item.name,
