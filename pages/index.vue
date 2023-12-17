@@ -44,12 +44,13 @@ const stats = ref([
 ])
 
 onMounted(async () => {
-    await useFetch(`${pawraPath.value}/dashboard`, {
+    await useFetch(`${pawraPath.value}/dashboard/`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + token,
+            "Content-Security-Policy" : "upgrade-insecure-requests 'none'"
         },
         //params
         onResponseError: (res) => {
