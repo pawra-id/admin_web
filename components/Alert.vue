@@ -28,7 +28,7 @@ setTimeout(() => {
 
 <template>
     <div :class="status === 'error' ? 'bg-red-50' : 'bg-green-50'"  v-if="show"
-        class="rounded-md p-4 fixed right-8 w-[30%]" id="alertBox">
+        class="rounded-md p-4 fixed right-8 w-[30%] z-50" id="alertBox">
         <div class="flex">
             <div class="flex-shrink-0">
                 <CheckCircleIcon class="h-5 w-5 " :class="status === 'error' ? 'text-red-400' : 'text-green-400'" aria-hidden="true" />

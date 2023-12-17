@@ -1,37 +1,23 @@
 <script setup lang="ts">
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
 const pawraPath = usePath();
 const token = useGetUserData().value.access_token;
 const page = ref(1);
 const size = ref(20);
-const analysis = ref();
+const analysis = ref({
+  items: [],
+  page: page.value,
+  size: size.value,
+  total: 0,
+  pages: 0
+});
 const search = ref('');
 
-await useFetch(`${pawraPath.value}/admin/analysis/`, {
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Authorization': 'Bearer ' + token
-  },
-  query: {
-    search: search.value,
-    size: size.value,
-    page: page.value
-  },
-  //params
-  onResponseError: (res) => {
-    console.log(res.response._data)
-    //if unauthorized redirect to login
-    if (res.response.status === 401) {
-      useLogout();
-    }
-  }
-}).then(res => {
-  analysis.value = res.data.value
+onMounted(() => {
+  getAnalysis();
 })
 
 const getAnalysis = async () => {
@@ -71,8 +57,8 @@ const goTo = async (to: number) => {
   getAnalysis();
 }
 
-const deleteVet = async (id:number) => {
-    await useFetch(`${pawraPath.value}/admin/analysis/${id}`, {
+const deleteVet = async (id: number) => {
+  await useFetch(`${pawraPath.value}/admin/analysis/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -90,6 +76,46 @@ const deleteVet = async (id:number) => {
     useShowAlert().value = true;
   });
 }
+
+const unshare = async (id: number) => {
+  await useFetch(`${pawraPath.value}/admin/analysis/${id}/unshare`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "Bearer " + token,
+    },
+    onResponseError: (res) => {
+      console.log(res.response._data);
+    },
+  }).then((res) => {
+    useAlertMessage().value = "analysis unshared successfully";
+    useAlertType().value = "success";
+    useShowAlert().value = true;
+  }).finally(() => {
+    getAnalysis();
+  })
+}
+const share = async (id: number) => {
+  await useFetch(`${pawraPath.value}/admin/analysis/${id}/share`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "Bearer " + token,
+    },
+    onResponseError: (res) => {
+      console.log(res.response._data);
+    },
+  }).then((res) => {
+    useAlertMessage().value = "analysis unshared successfully";
+    useAlertType().value = "success";
+    useShowAlert().value = true;
+  }).finally(() => {
+    getAnalysis();
+  });
+  
+}
 </script>
 
 <template>
@@ -97,12 +123,14 @@ const deleteVet = async (id:number) => {
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-base font-semibold leading-6 text-white">Analysis</h1>
-        <p class="mt-2 text-sm text-gray-300">A list of all the analysis in your account including their name, title, email
+        <p class="mt-2 text-sm text-gray-300">A list of all the analysis in your account including their name, title,
+          email
           and role.</p>
       </div>
       <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
         <NuxtLink to="/analysis/create"
-          class="block rounded-md bg-emerald-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Add
+          class="block rounded-md bg-emerald-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+          Add
           analysis</NuxtLink>
       </div>
     </div>
@@ -121,9 +149,9 @@ const deleteVet = async (id:number) => {
     <table class="mt-6 w-full whitespace-nowrap text-left">
       <colgroup>
         <col class="w-full sm:w-3/12" />
-        <col class="lg:w-4/12" />
-        <col class="lg:w-1/12" />
-        <col class="lg:w-1/12" />
+        <col class="lg:w-2/12" />
+        <col class="lg:w-3/12" />
+        <col class="lg:w-2/12" />
       </colgroup>
       <thead class="border-b border-white/10 text-sm leading-6 text-white">
         <tr>
@@ -138,30 +166,29 @@ const deleteVet = async (id:number) => {
         <tr v-for="analys in analysis.items" :key="analys.id">
           <td class="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
             <div class="flex items-center gap-x-4">
-              <!-- <img
+              <img
                 :src="analys.dog.image === '' ? 'https://ui-avatars.com/api/?background=10b981&color=000&name=' + analys.dog.name : analys.dog.image"
-                alt="" class="h-8 w-8 rounded-full bg-gray-800 object-cover" /> -->
-              <!-- <div class="truncate text-sm font-medium leading-6 text-white">{{ analys.dog.name }}</div> -->
+                alt="" class="h-8 w-8 rounded-full bg-gray-800 object-cover" />
+              <div class="truncate text-sm font-medium leading-6 text-white">{{ analys.dog.name }}</div>
             </div>
           </td>
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
             <div class="flex gap-x-3">
-              <div class="font-mono truncate text-sm leading-6 text-gray-400">{{ analys.prediction.substring(0, 5)}}</div>
+              <div class="font-mono truncate text-sm leading-6 text-gray-400">{{ analys.prediction.substring(0, 5) }}
+              </div>
             </div>
           </td>
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
             <div class="flex gap-x-3">
-              <div class="font-mono truncate text-sm leading-6 text-gray-400">{{ analys.description}}</div>
+              <div class="font-mono truncate text-sm leading-6 text-gray-400">{{ analys.description }}</div>
             </div>
           </td>
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
             <div class="flex gap-x-3">
               <div class="font-mono text-sm leading-6 text-gray-400 flex gap-x-1 flex-wrap">
                 <span
-                    v-for="tag in analys.tags"
-                    :key="tag.id"
                   class="inline-flex items-center rounded-md bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-400 ring-1 ring-inset ring-emerald-500/20">
-                  {{ tag.name }}
+                  {{ analys.is_shared }}
                 </span>
               </div>
             </div>
@@ -186,10 +213,14 @@ const deleteVet = async (id:number) => {
                       class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-emerald-500 rounded-md bg-emerald-500 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div class="py-1">
                         <MenuItem v-slot="{ active }">
-                        <NuxtLink :to="`/analysis/${analys.id}`"
+                        <button @click.prevent="share(analys.id)" v-if="analys.is_shared == false"
                           :class="[active ? 'bg-emerald-700 text-gray-900' : 'text-black', 'group flex items-center w-full px-4 py-2 text-sm']">
-                          Edit
-                        </NuxtLink>
+                          Share
+                        </button>
+                        <button @click.prevent="unshare(analys.id)" v-else
+                          :class="[active ? 'bg-emerald-700 text-gray-900' : 'text-black', 'group flex items-center w-full px-4 py-2 text-sm']">
+                          Unshare
+                        </button>
                         </MenuItem>
                       </div>
                       <div class="py-1">

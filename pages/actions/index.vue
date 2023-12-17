@@ -35,7 +35,7 @@ const getActions = async () => {
       }
     },
   }).then((res) => {
-    actions.value = res.data.value;
+    actions.value = res.data.value.items;
   });
 };
 
