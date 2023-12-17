@@ -88,7 +88,7 @@ const createTag = async () => {
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
             <NuxtLink to="/tags" class="text-sm font-semibold leading-6 text-white">Cancel</NuxtLink>
-            <button type="submit"
+            <button type="submit" :disabled="loading"
                 class="rounded-md bg-emerald-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500">
                 <div v-if="loading">
                     <svg xmlns="http://www.w3.org/2000/svg" width="1.7em" height="1.7em" viewBox="0 0 24 24">

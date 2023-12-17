@@ -225,6 +225,14 @@ const share = async (id: number) => {
                       </div>
                       <div class="py-1">
                         <MenuItem v-slot="{ active }">
+                        <NuxtLink :to="`/analysis/${analys.id}`" 
+                        :class="[active ? 'bg-emerald-700 text-gray-900' : 'text-black', 'group flex items-center w-full px-4 py-2 text-sm']">
+                          Detail
+                        </NuxtLink>
+                        </MenuItem>
+                      </div>
+                      <div class="py-1">
+                        <MenuItem v-slot="{ active }">
                         <button @click.prevent="deleteVet(analys.id)" :class="[
                           active
                             ? 'bg-red-700 text-white'
