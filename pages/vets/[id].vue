@@ -218,14 +218,14 @@ const uploadFile = async (e) => {
                                 {{ vet.education }}
                             </textarea>
                         </div>
-                        <p class="mt-3 text-sm leading-6 text-gray-400">Write a few sentences about the educations</p>
+                        <p class="mt-3 text-sm leading-6 text-gray-400">Use | to separate between multiple educations</p>
                     </div>
                     <div class="col-span-full">
-                        <label for="experiences" class="block text-sm font-medium leading-6 text-white">Experiences</label>
+                        <label for="description" class="block text-sm font-medium leading-6 text-white">Description</label>
                         <div class="mt-2">
-                            <textarea id="experiences" name="experiences" rows="3" v-model="vet.experience"
+                            <textarea id="description" name="description" rows="3" v-model="vet.description"
                                 class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-emerald-500 sm:text-sm sm:leading-6">
-                                {{ vet.experience }}
+                                {{ vet.description }}
                             </textarea>
                         </div>
                         <p class="mt-3 text-sm leading-6 text-gray-400">Write a few sentences about the experiences.</p>
