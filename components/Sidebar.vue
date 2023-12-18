@@ -8,8 +8,10 @@ import {
     ChartPieIcon,
     HeartIcon,
     HomeIcon,
+    LightBulbIcon,
     NewspaperIcon,
     Square3Stack3DIcon,
+    TicketIcon,
     UsersIcon,
     XMarkIcon,
 
@@ -24,11 +26,16 @@ const navigations = [
     { name: 'Blogs', href: '/blogs', icon: NewspaperIcon, current: false },
     { name: 'Activity', href: '/activities', icon: Square3Stack3DIcon, current: false },
     { name: 'Analysis', href: '/analysis', icon: ChartPieIcon, current: false },
+    { name: 'Actions', href: '/actions', icon: LightBulbIcon, current: false },
+    { name: 'Tags', href: '/tags', icon: TicketIcon, current: false },
 ]
 const route = useRoute()
 const sidebarOpen = ref(false)
 const toggle = () => sidebarOpen.value = !sidebarOpen.value
-const isRouteActive = (href) => route.path === href
+const isRouteActive = (href) => {
+    if (href === '/') return route.path === href
+    return route.path.startsWith(href)
+}
 
 const routeName = computed(() => {
     if (route.name === 'index') return 'Dashboard'
@@ -36,6 +43,9 @@ const routeName = computed(() => {
     const name = route.name.charAt(0).toUpperCase() + route.name.slice(1)
     return name
 })
+
+const user = useGetUserData().value.user
+
 </script>
 
 <template>
@@ -65,9 +75,9 @@ const routeName = computed(() => {
                             </div>
                         </TransitionChild>
                         <!-- Sidebar component, swap this element with another sidebar if you like -->
-                        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-2 ring-1 ring-white/10">
+                        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-800 px-6 pb-2 ring-1 ring-white/10">
                             <div class="flex h-16 shrink-0 items-center">
-                                <img class="h-12 w-auto" src="@/assets/images/pawra1x1.png" alt="Your Company" />
+                                <img class="h-12 w-auto" src="/images/Pawra1x1.png" alt="Your Company" />
                             </div>
                             <nav class="flex flex-1 flex-col">
                                 <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -75,7 +85,7 @@ const routeName = computed(() => {
                                         <ul role="list" class="-mx-2 space-y-1">
                                             <li v-for="item in navigations" :key="item.name">
                                                 <NuxtLink :to="item.href"
-                                                    :class="[isRouteActive(item.href) ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                                                    :class="[isRouteActive(item.href) ? 'bg-gray-900 text-emerald-500' : 'text-gray-400 hover:text-white hover:bg-gray-800', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
                                                     <component :is="item.icon" class="h-6 w-6 shrink-0"
                                                         aria-hidden="true" />
                                                     {{ item.name }}
@@ -95,9 +105,9 @@ const routeName = computed(() => {
     <!-- Static sidebar for desktop -->
     <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         <!-- Sidebar component, swap this element with another sidebar if you like -->
-        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
+        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-800 px-6">
             <div class="flex h-16 shrink-0 items-center">
-                <img class="h-12 w-auto" src="@/assets/images/pawra1x1.png" alt="Your Company" />
+                <img class="h-12 w-auto" src="/images/Pawra1x1.png" alt="Your Company" />
             </div>
             <nav class="flex flex-1 flex-col">
                 <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -105,7 +115,7 @@ const routeName = computed(() => {
                         <ul role="list" class="-mx-2 space-y-1">
                             <li v-for="item in navigations" :key="item.name">
                                 <NuxtLink :to="item.href"
-                                    :class="[isRouteActive(item.href) ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                                    :class="[isRouteActive(item.href) ? 'bg-gray-900 text-emerald-500' : 'text-gray-400 hover:text-white hover:bg-gray-900', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
                                     <component :is="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
                                     {{ item.name }}
                                 </NuxtLink>
@@ -117,12 +127,12 @@ const routeName = computed(() => {
                         <a class="flex items-center justify-between h-14 text-sm font-semibold leading-6 text-white">
                             <div class="flex items-center gap-x-3 ml-3">
                                 <img class="h-8 w-8 rounded-full bg-gray-800"
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                    :src="user.image === '' ? 'https://ui-avatars.com/api/?background=10b981&color=000&name=' + user.username : user.image"
                                     alt="" />
                                 <span class="sr-only">Your profile</span>
-                                <span aria-hidden="true">Tom Cook</span>
+                                <span aria-hidden="true">{{ user.username }}</span>
                             </div>
-                            <button class="bg-red-700 h-full px-4 hover:bg-red-900">
+                            <button @click.prevent="useLogout()" class="bg-red-700 h-full px-4 hover:bg-red-900 rounded-md">
                                 <ArrowRightCircleIcon class="h-7 w-7 text-white font-bold" aria-hidden="true" />
                             </button>
                         </a>
@@ -146,7 +156,7 @@ const routeName = computed(() => {
                     <a href="#">
                         <span class="sr-only">Your profile</span>
                         <img class="h-8 w-8 rounded-full bg-gray-800"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            :src="user.image === '' ? 'https://ui-avatars.com/api/?background=10b981&color=000&name=' + user.username : user.image"
                             alt="" />
                     </a>
                 </MenuButton>
@@ -160,7 +170,7 @@ const routeName = computed(() => {
                     class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div class="py-1">
                         <MenuItem v-slot="{ active }">
-                        <button
+                        <button @click.prevent="useLogout()"
                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'group flex items-center w-full px-4 py-2 text-sm']">
                             <ArrowRightCircleIcon class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                 aria-hidden="true" />
