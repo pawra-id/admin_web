@@ -1,75 +1,25 @@
-# Nuxt 3 Minimal Starter
+# Pawra Web Admin
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Web app for managing Pawra data and users, monitor, granting permission to users, writing blogs, and input veterinarian data.
+
+## Requirements
+- Node JS
+- NPM
 
 ## Setup
-
-Make sure to install the dependencies:
-
+- Make sure to install the dependencies:
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
+- Create ```.env``` file in the root path to store base url environment variable. 
+
+- Create variable ```PAWRA_BASE_URL=``` inside the ```.env``` file. Fill it with the url created after running the [Pawra backend API](https://github.com/pawra-id/pawra_backend_api)
 
 ## Development Server
 
 Start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
