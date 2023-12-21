@@ -1,0 +1,31 @@
+# Ignore node_modules folder
+node_modules/
+
+# Ignore build output
+.nuxt/
+
+.gitignore
+README.md
+
+# Ignore development files
+.DS_Store
+.env
+.env.*
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+
+# Ignore editor and IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+.komodotools/
+.kate-swp/
+*.swp
+*~

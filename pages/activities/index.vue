@@ -130,6 +130,7 @@ const deleteVet = async (id:number) => {
           <th scope="col" class="py-2 pl-4 pr-8 font-semibold sm:pl-6 lg:pl-8">Dog</th>
           <th scope="col" class="py-2 pl-0 pr-4 text-right font-semibold sm:pr-8 sm:text-left">Activity</th>
           <th scope="col" class="hidden py-2 pl-0 pr-8 font-semibold sm:table-cell">Tags</th>
+          <th scope="col" class="hidden py-2 pl-0 pr-8 font-semibold sm:table-cell">Created</th>
           <th scope="col" class="hidden py-2 pl-0 pr-4 text-right font-semibold sm:table-cell sm:pr-6 lg:pr-8"></th>
         </tr>
       </thead>
@@ -145,7 +146,7 @@ const deleteVet = async (id:number) => {
           </td>
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
             <div class="flex gap-x-3">
-              <div class="font-mono truncate text-sm leading-6 text-gray-400">{{ activity.description}}</div>
+              <div class="font-mono truncate text-sm leading-6 w-64 text-gray-400">{{ activity.description}}</div>
             </div>
           </td>
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
@@ -158,6 +159,11 @@ const deleteVet = async (id:number) => {
                   {{ tag.name }}
                 </span>
               </div>
+            </div>
+          </td>
+          <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
+            <div class="flex gap-x-3">
+              <div class="font-mono truncate text-sm leading-6 w-64 text-gray-400">{{ new Date(activity.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}}</div>
             </div>
           </td>
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">

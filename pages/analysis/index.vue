@@ -180,7 +180,7 @@ const share = async (id: number) => {
           </td>
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
             <div class="flex gap-x-3">
-              <div class="font-mono truncate text-sm leading-6 text-gray-400">{{ analys.description }}</div>
+              <div class="font-mono truncate w-64 text-sm leading-6 text-gray-400">{{ analys.description }}</div>
             </div>
           </td>
           <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
