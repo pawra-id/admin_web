@@ -3,6 +3,7 @@ node_modules/
 
 # Ignore build output
 .nuxt/
+.output/
 
 .gitignore
 README.md

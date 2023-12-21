@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   ssr: false,
   runtimeConfig: {
     public: {
-      pawraPath: process.env.PAWRA_BASE_URL,
+      pawraPath: process.env.VITE_PAWRA_BASE_URL,
     }
   }
   //compiler options
