@@ -1,6 +1,7 @@
 export const usePath = () => useState<string>('pawraPath', () => {
     const config = useRuntimeConfig()
-    const basePath = config.public.pawraPath
+    // const basePath = config.public.pawraPath
+    const basePath = import.meta.env.VITE_PAWRA_BASE_URL
     return basePath
 })
 
